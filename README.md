@@ -26,8 +26,7 @@ Optionally Connect the Application to Github
 
 1. Requires that you have access to the Github repository (FreshBooks employees as in #dev)
 2. From the application Deploy->GitHub page click `Connect to GitHub`
-3. Grant the heroku app access to freshbooks/awaybot
-4. Click on `Enable Automatic Deploys`
+3. Grant the heroku app access to freshbooks/team-pull-requests-bot
 
 # Running it locally
 
