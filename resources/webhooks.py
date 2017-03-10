@@ -13,6 +13,7 @@ class WebhooksResource(Resource):
         self.slack_hook_url = os.environ["SLACK_HOOK_URL"]
         self.team_members = map(lambda member: member.lower().strip(),
                                 os.environ['TEAM_MEMBERS'].split(','))
+        self.slack_channel = os.environ["SLACK_CHANNEL"]
 
     def post(self):
         try:
@@ -51,7 +52,7 @@ class WebhooksResource(Resource):
         emoji = self.get_emoji()
 
         response = requests.post(self.slack_hook_url, json={
-            "channel": "#asfdafds",
+            "channel": "#%s" % self.slack_channel,
             "text": '%s *A wild PR from @%s appeared!* %s\n_%s_: %s' % (
                 emoji, author, emoji, title, url),
             "username": 'Juanbot',
