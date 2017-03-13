@@ -25,7 +25,7 @@ Mapping Github Usernames To Slack Username
 ============================================
 In the Heroku `TEAM_MEMBERS` config, for any username that needs a mapping, simply specify their name as <github_name>:<slack_name>. For example
 ```
-TEAM_MEMBERS: anton,markstory:THEmarkstory,anandh
+TEAM_MEMBERS: anton,anandh,markstory:THEmarkstory
 ```
 
 
