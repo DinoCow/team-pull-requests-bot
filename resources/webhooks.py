@@ -11,8 +11,8 @@ class WebhooksResource(Resource):
 
     def __init__(self):
         self.slack_hook_url = os.environ["SLACK_HOOK_URL"]
-        self.team_members = map(lambda member: member.lower().strip(),
-                                os.environ['TEAM_MEMBERS'].split(','))
+        self.team_members = self.extract_team_members(
+                                os.environ['TEAM_MEMBERS'])
         self.slack_channel = os.environ["SLACK_CHANNEL"]
 
     def post(self):
@@ -54,7 +54,7 @@ class WebhooksResource(Resource):
         response = requests.post(self.slack_hook_url, json={
             "channel": "#%s" % self.slack_channel,
             "text": '%s *A wild PR from @%s appeared!* %s\n_%s_: %s' % (
-                emoji, author, emoji, title, url),
+                emoji, self.team_members[author], emoji, title, url),
             "username": 'Juanbot',
             "icon_emoji": ':juanbot:',
             "link_names": True,
@@ -64,6 +64,19 @@ class WebhooksResource(Resource):
 
         if response.status_code != 200:
             logging.error(response.text)
+
+    def extract_team_members(self, team_members):
+        github_slack_mapping = {}
+        team_members = map(lambda member: member.lower().strip(),
+                           team_members.split(','))
+
+        for member in team_members:
+            names = member.split(':')
+            github_slack_mapping[names[0]] = names[0]
+            if len(names) == 2:
+                github_slack_mapping[names[0]] = names[1]
+
+        return github_slack_mapping
 
     def get_emoji(self):
         emojis = [
