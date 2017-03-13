@@ -1,8 +1,8 @@
      _____                     ______      _ _  ______                           _        ______       _   
     |_   _|                    | ___ \    | | | | ___ \                         | |       | ___ \     | |  
-      | | ___  __ _ _ __ ___   | |_/ /   _| | | | |_/ /___  __ _ _   _  ___  ___| |_ ___  | |_/ / ___ | |_ 
+      | | ___  __ _ _ __ ___   | |_/ /   _| | | | |_/ /___  __ _ _   _  ___  ___| |_ ___  | |_/ / ___ | |_
       | |/ _ \/ _` | '_ ` _ \  |  __/ | | | | | |    // _ \/ _` | | | |/ _ \/ __| __/ __| | ___ \/ _ \| __|
-      | |  __/ (_| | | | | | | | |  | |_| | | | | |\ \  __/ (_| | |_| |  __/\__ \ |_\__ \ | |_/ / (_) | |_ 
+      | |  __/ (_| | | | | | | | |  | |_| | | | | |\ \  __/ (_| | |_| |  __/\__ \ |_\__ \ | |_/ / (_) | |_
       \_/\___|\__,_|_| |_| |_| \_|   \__,_|_|_| \_| \_\___|\__, |\__,_|\___||___/\__|___/ \____/ \___/ \__|
                                                               | |                                          
                                                               |_|                                          
@@ -20,6 +20,14 @@ Utilizes the github organization webhook, in order to notify your team mates on 
 separated by commas
 6. Enter in the channel you want the bot to slack into the Heroku config `SLACK_CHANNEL` field
 7. Click Deploy for Free
+
+Mapping Github Usernames To Slack Username
+============================================
+In the Heroku `TEAM_MEMBERS` config, for any username that needs a mapping, simply specify their name as <github_name>:<slack_name>. For example
+```
+TEAM_MEMBERS: anton,anandh,markstory:THEmarkstory
+```
+
 
 Optionally Connect the Application to Github
 ============================================
