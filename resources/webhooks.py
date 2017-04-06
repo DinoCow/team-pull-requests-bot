@@ -1,4 +1,3 @@
-import random
 import logging
 import json
 import requests
@@ -48,13 +47,14 @@ class WebhooksResource(Resource):
         pull_request = event.get('pull_request', {})
         title = pull_request.get('title', '')
         author = pull_request.get('user', {}).get('login', '')
+        slack_name = self.team_members[author]
         url = pull_request.get('html_url')
-        emoji = self.get_emoji()
+        emoji = self.get_emoji(author)
 
         response = requests.post(self.slack_hook_url, json={
             "channel": "#%s" % self.slack_channel,
             "text": '%s *A wild PR from @%s appeared!* %s\n_%s_: %s' % (
-                emoji, self.team_members[author], emoji, title, url),
+                emoji, slack_name, emoji, title, url),
             "username": 'Juanbot',
             "icon_emoji": ':juanbot:',
             "link_names": True,
@@ -78,18 +78,20 @@ class WebhooksResource(Resource):
 
         return github_slack_mapping
 
-    def get_emoji(self):
+    def get_emoji(self, author_name):
         emojis = [
             ":boom:",
             ":wow:",
             ":star_mario:",
-            ":fire:",
-            ":hero:",
             ":ctroup:",
+            ":hero:",
+            ":high5:",
+            ":eli:",
             ":1up_mario:",
-            ":antonrainbow:",
+            ":fire:",
             ":awesome:",
             ":carlton:",
+            ":excited_bunny:",
             ":dancing-penguin:",
             ":fb_levisays:",
             ":leaf:",
@@ -100,5 +102,12 @@ class WebhooksResource(Resource):
             ":pika_dance:",
             ":shane:",
             ":yay:",
+            ":dittodance:",
+            ":ohyah_dance:"
         ]
-        return random.choice(emojis)
+        name_index = len(author_name)
+        for character in author_name:
+            name_index = name_index + ord(character)
+
+        emoji_index = name_index % len(emojis)
+        return emojis[emoji_index]
